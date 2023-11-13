@@ -31,3 +31,23 @@ print(d == e)       # equality checking is easy
 print(f"{c}")       # matrices have MATLAB-like string formatting...
 print(f"{c:full}")  # ...and can be formatted as well
 ```
+
+This project is an attempt at making matrix operations computationally cheaper by using simpler
+representations on the C-side of FFI. See how matrices are represented and indexed in the C source:
+```c
+typedef struct Matrix
+{
+    size_t rows;
+    size_t cols;
+    double data[];
+} 
+Matrix;
+
+static inline double *getIndex(size_t i, size_t j, Matrix *m) 
+{
+    size_t index = indexMatrix(i, j, m);
+    return &(m->data[index]);
+}
+```
+
+This allows for less indirection when accessing values and less time `malloc`ing memory when initializing matrices.
