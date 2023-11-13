@@ -43,6 +43,11 @@ typedef struct Matrix
 } 
 Matrix;
 
+static inline size_t indexMatrix(size_t i, size_t j, Matrix *m)
+{
+    return i * m->cols + j;
+}
+
 static inline double *getIndex(size_t i, size_t j, Matrix *m) 
 {
     size_t index = indexMatrix(i, j, m);
